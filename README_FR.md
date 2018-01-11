@@ -1,3 +1,3 @@
 # client_pgU1
 
-Le code du côté client du robot pgU1. Il s'occupe de commandé le robot et d'exécuté l'analyse vidéo.
+Le code client du robot pgU1. Il s'occupe de commander le robot et d'exécuter l'analyse vidéo.

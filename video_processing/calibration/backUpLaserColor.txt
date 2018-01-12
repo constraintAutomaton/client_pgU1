@@ -1,0 +1,4 @@
+upper upper Red Up :360,100,100;
+upper Red low:15,100,100;
+lower Red Up :350,31,50;
+lower Red low:11,57,63;

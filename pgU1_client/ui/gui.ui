@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>957</width>
-    <height>529</height>
+    <width>963</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,9 +33,9 @@
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <layout class="QHBoxLayout" name="command">
       <item>
-       <widget class="QWidget" name="widget" native="true">
+       <widget class="QWidget" name="camera_command" native="true">
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -131,6 +131,25 @@
       </item>
      </layout>
     </item>
+    <item>
+     <widget class="QFrame" name="connection">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QPushButton" name="btnConnection">
+         <property name="text">
+          <string>Connect </string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -138,7 +157,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>957</width>
+     <width>963</width>
      <height>26</height>
     </rect>
    </property>

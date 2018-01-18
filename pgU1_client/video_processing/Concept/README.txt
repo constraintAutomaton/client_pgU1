@@ -1,0 +1,1 @@
+Just some experimentation whit openCv will be delete eventually

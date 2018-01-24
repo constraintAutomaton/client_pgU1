@@ -1,3 +1,4 @@
 ip:192.168.2.18;
 username:pi
 password:raspberry
+rpi_script:/home/pi/Python_project/PgU1/PgU1/CommandModule.py;

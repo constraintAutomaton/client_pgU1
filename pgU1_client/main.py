@@ -4,7 +4,7 @@ from PyQt5 import QtGui, QtCore, QtWidgets
 from gui import Ui_MainWindow
 from client import Client
 sys.path.append(
-    r'C:\Users\Utilisateur\Documents\Python_Scripts\pgU1_pc_command\pgU1_client\video_processing')
+    r'video_processing')
 from videoProcessing import VideoProcessing
 
 
@@ -14,7 +14,8 @@ class Main(Ui_MainWindow, Client):
     """
     def __init__(self, w):
         self.setupUi(w)
-        self.btnConnection.clicked.connect(self.connection_to_py)
+        Client.__init__(self)
+        self.btnConnection.clicked.connect(self.connection_to_pi)
         self.initMovement()
     def initMovement(self):
         """
@@ -39,10 +40,10 @@ class Main(Ui_MainWindow, Client):
             self.send_command('tlf')
         elif mvt == 'stop':
             self.send_command('stop')
-    def connection_to_py(self):
+    def connection_to_pi(self):
         """connection to the pi
         """
-        Client.__init__(self)
+        self.connection()
 def main():
     app = QtWidgets.QApplication(sys.argv)
     w = QtWidgets.QMainWindow()

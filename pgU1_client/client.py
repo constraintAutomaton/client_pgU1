@@ -39,7 +39,8 @@ class Client():
             'sudo python3 {}\n'.format(self.rpiScript))  
         # for some reason readlines make the program bug and there is 2 line before the program send some useful information
         self.stdout.readline()
-        self.stdout.readline()        
+        self.stdout.readline()
+        self.stdout.readline() 
     def send_command(self, command):
         """
         send a command and prepare to send another

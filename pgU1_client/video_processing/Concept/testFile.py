@@ -48,31 +48,32 @@ def video():
     cap = cv2.VideoCapture(0)
 
     while True:
+        print('ok')
         ret, frame = cap.read()
-        hsvFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        #hsvFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        upperRedUp = np.array([360 / 2, 100 * (255 / 100), 100 * (255 / 100)])
-        lowerRedUp = np.array([350 / 2, 31 * (255 / 100), 50 * (255 / 100)])
-        maskUp = cv2.inRange(hsvFrame, lowerRedUp, upperRedUp)
+        #upperRedUp = np.array([360 / 2, 100 * (255 / 100), 100 * (255 / 100)])
+        #lowerRedUp = np.array([350 / 2, 31 * (255 / 100), 50 * (255 / 100)])
+        #maskUp = cv2.inRange(hsvFrame, lowerRedUp, upperRedUp)
 
-        lowerRedLow = np.array([11 / 2, 57 * (255 / 100), 63 * (255 / 100)])
-        upperRedLow = np.array([15 / 2, 100 * (255 / 100), 100 * (255 / 100)])
-        print(upperRedLow)
-        maskLow = cv2.inRange(hsvFrame, lowerRedLow, upperRedLow)
+        #lowerRedLow = np.array([11 / 2, 57 * (255 / 100), 63 * (255 / 100)])
+        #upperRedLow = np.array([15 / 2, 100 * (255 / 100), 100 * (255 / 100)])
+        #print(upperRedLow)
+        #maskLow = cv2.inRange(hsvFrame, lowerRedLow, upperRedLow)
 
-        mask = cv2.bitwise_or(maskUp, maskLow)
-        res = cv2.bitwise_and(frame, frame, mask=mask)
+        #mask = cv2.bitwise_or(maskUp, maskLow)
+        #res = cv2.bitwise_and(frame, frame, mask=mask)
 
-        laserPos = np.nonzero(mask)
+        #laserPos = np.nonzero(mask)
 
-        centroidY = int(round(np.average(laserPos[0])))
-        centroidX = int(round(np.average(laserPos[1])))
+        #centroidY = int(round(np.average(laserPos[0])))
+        #centroidX = int(round(np.average(laserPos[1])))
 
-        cv2.circle(res, (centroidX, centroidY), 25, (0, 0, 255))
+        #cv2.circle(res, (centroidX, centroidY), 25, (0, 0, 255))
 
-        cv2.imshow('frame', frame)
-        cv2.imshow('mask',mask)
-        cv2.imshow('res',res)
+        #cv2.imshow('frame', frame)
+        #cv2.imshow('mask',mask)
+        #cv2.imshow('res',res)
 
         k = cv2.waitKey(5) & 0xFF
         if k == 27:
@@ -82,4 +83,4 @@ def video():
     cap.release()
 
 
-image()
+video()

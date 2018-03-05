@@ -1,6 +1,7 @@
 import sys 
 import os
 import unittest
+import numpy as np
 sys.path.append(r'..\pgU1_client\localisation')
 from mapping import mapping
 
@@ -30,6 +31,36 @@ class mapping_test(unittest.TestCase):
         self.assertEqual(testMap.i_max,i_max)
         self.assertEqual(testMap.j_max,j_max)
         self.assertTrue((testMap.currentMap==curentMap).all())
+        os.remove(r'map_file\testMap_version_1.map')
+    def test_change_layout(self):
+        testMap = mapping('testMap')
+        testMap.map_generation(6,10)
+        
+        testMap.change_layout(testMap.robot,1,(1,1))
+        self.assertEqual(testMap.currentMap[1,1],testMap.robot)
+        
+        testMap.change_layout(testMap.robot,1,(1,1),direction='N')
+        self.assertEqual(testMap.currentMap[1,1],testMap.robot)
+        testMap.change_layout(testMap.robot,3,(5,1),direction='N')
+    
+        self.assertTrue((testMap.currentMap[2:5,1]==np.full((3,1),testMap.robot,dtype=str)).all())
+        
+        testMap.change_layout(testMap.robot,1,(1,1),direction='S')
+        self.assertEqual(testMap.currentMap[1,1],testMap.robot)
+        testMap.change_layout(testMap.robot,3,(1,1),direction='S')
+        self.assertTrue((testMap.currentMap[1:4,1]==np.full((3,1),testMap.robot,dtype=str)).all())
+        
+        testMap.change_layout(testMap.robot,1,(1,1),direction='E')
+        self.assertEqual(testMap.currentMap[1,1],testMap.robot)
+        testMap.change_layout(testMap.robot,3,(1,1),direction='E')
+        self.assertTrue((testMap.currentMap[1,1:4]==np.full((1,3),testMap.robot,dtype=str)).all())
+        
+        testMap.change_layout(testMap.robot,1,(1,1),direction='W')
+        self.assertEqual(testMap.currentMap[1,1],testMap.robot)
+        testMap.change_layout(testMap.robot,3,(1,5),direction='W')
+        self.assertTrue((testMap.currentMap[1,2:5]==np.full((1,3),testMap.robot,dtype=str)).all())        
+        
+        
 if __name__ == '__main__':
     unittest.main()        
     

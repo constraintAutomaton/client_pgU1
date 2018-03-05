@@ -1,6 +1,4 @@
-"""make a map of the area in a matrix and keep the location of the robot
-for that it will record the movement of the robot by getting the speed, direction and the time of the movement
-the matrix will contain a 'x for the robot a '-' or a '|' for a wall or obstacle other symbol will be choose later for other item"""
+
 import numpy as np
 
 class mapping():
@@ -39,14 +37,8 @@ class mapping():
         (i_ini,j_ini) = posIni
         i = i_ini
         j = j_ini
-        
-        for el in range(0,nb):
-            if i>self.i_max:
-                print('out of the map in "i"')
-                break
-            elif j>self.j_max:
-                print('out of the map in "j"')
-                break                
+        for el in range(nb+1):
+            self.currentMap[i,j] = element                
             if direction == 'O':
                 (i,j) = (i_ini,j_ini)
             elif direction =='N':
@@ -57,7 +49,6 @@ class mapping():
                 j+=1
             elif direction=='W':
                 j-=1
-        self.currentMap[i,j]
     def load(self,file):
         with open(r'{}'.format(file),'r') as f:
             textMap = f.read()
@@ -95,12 +86,16 @@ class mapping():
                     break
                 el = np.array(line.split(' '),dtype=str)
                 self.currentMap[i,:] = el
-                i+=1    
+                i+=1
+    def enlarge_map(self,i_up,i_low,j):
+        matrix_i_up = np.full((i_up,j),self.unknown,dtype=str)
+        matrix_i_low = np.full((i_low,j),self.unknown,dtype=str)
     def __repr__(self):
         return str(self.currentMap)
 
     def __str__(self):
-        return str(self.currentMap)    
-            
+        return str(self.currentMap)
+    
+
             
             

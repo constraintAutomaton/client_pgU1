@@ -7,4 +7,4 @@ from main import Main
 class Gui_test(unittest.TestCase):
     def setUp(self):
         self.gui = Main()
-        
+      

@@ -18,6 +18,7 @@ class mapping():
         self.robot = 'X'
         self.road ='.'
         self.unknown = '?'
+        self.nothing = '*'
     def map_generation(self,size_i,size_j):
         self.currentMap = np.full((size_i,size_j),self.unknown,dtype=str)
         (self.i_max,self.j_max) = self.currentMap.shape
@@ -87,9 +88,20 @@ class mapping():
                 el = np.array(line.split(' '),dtype=str)
                 self.currentMap[i,:] = el
                 i+=1
-    def enlarge_map(self,i_up,i_low,j):
-        matrix_i_up = np.full((i_up,j),self.unknown,dtype=str)
-        matrix_i_low = np.full((i_low,j),self.unknown,dtype=str)
+    def enlarge_map(self,i_up=0,i_down=0,j_left=0,j_right=0):
+       enlargeUp = np.full((i_up,self.j_max),self.unknown,dtype=str)
+       enlargeDown = np.full((i_down,self.j_max),self.unknown,dtype=str)
+       
+       enlargeLeft = np.full((self.i_max,j_left),self.unknown,dtype=str)
+       enlargeRight = np.full((self.i_max,j_right),self.unknown,dtype=str)
+       
+       self.currentMap = np.hstack((self.currentMap,enlargeRight))
+       self.currentMap = np.hstack((enlargeLeft,self.currentMap))
+       
+       self.currentMap = np.vstack((self.currentMap,enlargeDown))
+       self.currentMap = np.vstack((enlargeUp,self.currentMap))
+       
+           ,
     def __repr__(self):
         return str(self.currentMap)
 

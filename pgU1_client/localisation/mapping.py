@@ -119,7 +119,7 @@ class mapping():
         elif direction=='W':
             j-=magnitude
         self.currentMap[i,j] = element
-        self.currentMap[i_ini,j_ini] = self.element_on_hold
+        self.change_layout(self.road,magnitude-1,position_ini,direction)
        
     def __repr__(self):
         return str(self.currentMap)

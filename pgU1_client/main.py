@@ -3,9 +3,9 @@ import os
 from PyQt5 import QtGui, QtCore, QtWidgets
 from gui import Ui_MainWindow
 from client import Client
-sys.path.append(
-    r'video_processing')
-from videoProcessing import VideoProcessing
+#sys.path.append(
+   # r'video_processing')
+#from videoProcessing import VideoProcessing
 
 
 class Main(Ui_MainWindow, Client):

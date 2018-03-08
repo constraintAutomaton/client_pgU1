@@ -31,7 +31,7 @@ class mapping_test(unittest.TestCase):
         self.assertEqual(testMap.i_max,i_max)
         self.assertEqual(testMap.j_max,j_max)
         self.assertTrue((testMap.currentMap==curentMap).all())
-        os.remove(os.path.join('map_file','testMap_version_1.map'))
+        #os.remove(os.path.join('map_file','testMap_version_1.map'))
     def test_change_layout(self):
         testMap = mapping('testMap')
         testMap.map_generation(6,10)
@@ -75,12 +75,14 @@ class mapping_test(unittest.TestCase):
                          testMap.enlarge_map(i_up=i_up,i_down=i_down,j_left=j_left,j_right=j_right)
                          self.assertEqual(testMap.i_max,i_original+(i_up+i_down),msg='i_up:{}; i_down:{}; j_right:{}; j_left:{}; map:\n{}'.format(i_up,i_down,j_right,j_left,testMap.currentMap))
                          self.assertEqual(testMap.j_max,j_original+(j_left+j_right),msg='i_up:{}; i_down:{}; j_right:{}; j_left:{}; map:\n{}'.format(i_up,i_down,j_right,j_left,testMap.currentMap))
-                         
-                         
-                         
-                         
-       
+    def test_move(self):
+        testMap = mapping('testMap')
+        testMap.map_generation(6,10)
+        testMap.move('S',(1,1),3)
         
+        self.assertEqual(testMap.currentMap[4,1],testMap.robot)
+        self.assertEqual(testMap.currentMap[1,1],testMap.road)
+                         
 if __name__ == '__main__':
     unittest.main()        
     

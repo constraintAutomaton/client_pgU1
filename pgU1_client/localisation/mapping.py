@@ -19,6 +19,7 @@ class mapping():
         self.road ='.'
         self.unknown = '?'
         self.nothing = '*'
+        self.element_on_hold = '.'
     def map_generation(self,size_i,size_j):
         self.currentMap = np.full((size_i,size_j),self.unknown,dtype=str)
         (self.i_max,self.j_max) = self.currentMap.shape
@@ -105,6 +106,20 @@ class mapping():
            enlargeLeft = np.full((self.i_max,j_left),self.unknown,dtype=str)
            self.currentMap = np.hstack((enlargeLeft,self.currentMap))
            (self.i_max,self.j_max) = self.currentMap.shape
+    def move(self,direction,position_ini,magnitude):
+        element=self.robot
+        (i_ini,j_ini) = position_ini
+        (i,j) = position_ini
+        if direction=='N':
+            i-=magnitude
+        elif direction=='S':
+            i+=magnitude
+        elif direction=='E':
+            j+=magnitude
+        elif direction=='W':
+            j-=magnitude
+        self.currentMap[i,j] = element
+        self.currentMap[i_ini,j_ini] = self.element_on_hold
        
     def __repr__(self):
         return str(self.currentMap)

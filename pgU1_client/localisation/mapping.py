@@ -1,4 +1,4 @@
-
+import os
 import numpy as np
 
 class mapping():
@@ -31,7 +31,7 @@ class mapping():
             saveText = saveText+'\n'
         saveText = saveText+ '\n#'+'\n'+'unit:{}; incrementation in i:{};; incrementation in j:{};;; size in i:{};;;; size in j:{};;;;; name:{};;;;;; version:{}'.format(self.unit,self.i_incre,self.j_incre,self.i_max,self.j_max,self.mapName,self.version)
         
-        with open(r'map_file\{}_version_{}.map'.format(self.mapName,self.version),'w') as f:
+        with open(os.path.join('map_file','{}_version_{}.map'.format(self.mapName,self.version)),'w') as f:
             f.write(saveText)
     def change_layout(self,element,nb,posIni,direction='O'):
         """change the caracter of the box for the user caracter"""
@@ -51,7 +51,7 @@ class mapping():
             elif direction=='W':
                 j-=1
     def load(self,file):
-        with open(r'{}'.format(file),'r') as f:
+        with open('{}'.format(file),'r') as f:
             textMap = f.read()
             deb = textMap.find('unit:')+len('unit:')
             end = textMap.find(';')
@@ -89,19 +89,23 @@ class mapping():
                 self.currentMap[i,:] = el
                 i+=1
     def enlarge_map(self,i_up=0,i_down=0,j_left=0,j_right=0):
-       enlargeUp = np.full((i_up,self.j_max),self.unknown,dtype=str)
-       enlargeDown = np.full((i_down,self.j_max),self.unknown,dtype=str)
+       if i_up >0:
+           enlargeUp = np.full((i_up,self.j_max),self.unknown,dtype=str)
+           self.currentMap = np.vstack((enlargeUp,self.currentMap))
+           (self.i_max,self.j_max) = self.currentMap.shape
+       if i_down>0:
+           enlargeDown = np.full((i_down,self.j_max),self.unknown,dtype=str)
+           self.currentMap = np.vstack((self.currentMap,enlargeDown))
+           (self.i_max,self.j_max) = self.currentMap.shape
+       if j_right>0:
+           enlargeRight = np.full((self.i_max,j_right),self.unknown,dtype=str)
+           self.currentMap = np.hstack((self.currentMap,enlargeRight))
+           (self.i_max,self.j_max) = self.currentMap.shape
+       if j_left>0:
+           enlargeLeft = np.full((self.i_max,j_left),self.unknown,dtype=str)
+           self.currentMap = np.hstack((enlargeLeft,self.currentMap))
+           (self.i_max,self.j_max) = self.currentMap.shape
        
-       enlargeLeft = np.full((self.i_max,j_left),self.unknown,dtype=str)
-       enlargeRight = np.full((self.i_max,j_right),self.unknown,dtype=str)
-       
-       self.currentMap = np.hstack((self.currentMap,enlargeRight))
-       self.currentMap = np.hstack((enlargeLeft,self.currentMap))
-       
-       self.currentMap = np.vstack((self.currentMap,enlargeDown))
-       self.currentMap = np.vstack((enlargeUp,self.currentMap))
-       
-           ,
     def __repr__(self):
         return str(self.currentMap)
 

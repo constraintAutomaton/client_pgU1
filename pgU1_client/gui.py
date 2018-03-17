@@ -18,9 +18,9 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.camera = QtWidgets.QWidget(self.centralwidget)
         self.camera.setObjectName("camera")
-        self.label = QtWidgets.QLabel(self.camera)
-        self.label.setGeometry(QtCore.QRect(420, 110, 55, 16))
-        self.label.setObjectName("label")
+        self.lblCamera = QtWidgets.QLabel(self.camera)
+        self.lblCamera.setGeometry(QtCore.QRect(420, 110, 55, 16))
+        self.lblCamera.setObjectName("lblCamera")
         self.verticalLayout.addWidget(self.camera)
         self.command = QtWidgets.QHBoxLayout()
         self.command.setObjectName("command")
@@ -104,7 +104,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "TextLabel"))
+        self.lblCamera.setText(_translate("MainWindow", "TextLabel"))
         self.btnTakePicture.setText(_translate("MainWindow", "Take Photo"))
         self.btnVideo.setText(_translate("MainWindow", "Start Video"))
         self.btnViewPhoto.setText(_translate("MainWindow", "Show Photo"))

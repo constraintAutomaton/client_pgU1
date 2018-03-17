@@ -17,7 +17,7 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QWidget" name="camera" native="true">
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="lblCamera">
        <property name="geometry">
         <rect>
          <x>420</x>

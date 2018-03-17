@@ -76,7 +76,6 @@ class mapping_test(unittest.TestCase):
                          self.assertEqual(testMap.i_max,i_original+(i_up+i_down),msg='i_up:{}; i_down:{}; j_right:{}; j_left:{}; map:\n{}'.format(i_up,i_down,j_right,j_left,testMap.currentMap))
                          self.assertEqual(testMap.j_max,j_original+(j_left+j_right),msg='i_up:{}; i_down:{}; j_right:{}; j_left:{}; map:\n{}'.format(i_up,i_down,j_right,j_left,testMap.currentMap))
     def test_move(self):
-        os.chdir(os.path.join('..','pgU1_client','localisation'))
         testMap = mapping('testMap')
         testMap.map_generation(6,10)
         testMap.move('S',(1,1),3)

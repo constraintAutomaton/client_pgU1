@@ -3,9 +3,10 @@ import os
 from PyQt5 import QtGui, QtCore, QtWidgets
 from gui import Ui_MainWindow
 from client import Client
-#sys.path.append(
-   # r'video_processing')
-#from videoProcessing import VideoProcessing
+sys.path.append('video_processing')
+sys.path.append('localisation')
+from videoProcessing import VideoProcessing
+from mapping import mapping
 
 
 class Main(Ui_MainWindow, Client):
@@ -16,7 +17,16 @@ class Main(Ui_MainWindow, Client):
         self.setupUi(w)
         Client.__init__(self)
         self.btnConnection.clicked.connect(self.connection_to_pi)
+        self.btnCamera.clicked.connect(self.switch_camera)
         self.initMovement()
+        self.camera = VideoProcessing()
+        self.camera_on_off = False
+        self.fps = 30
+        
+        self.timer = QtCore.QTimer()
+        self.timer.setInterval(int(1000/self.fps))
+        self.timer.timeout.connect(self.get_frame)
+             
     def initMovement(self):
         """
         initiation of the movement related button
@@ -44,6 +54,29 @@ class Main(Ui_MainWindow, Client):
         """connection to the pi
         """
         self.connection()
+    def switch_camera(self):
+        """ turn the camera on or off"""
+        if self.camera_on_off == False:
+            self.timer.start()   
+            self.camera_on_off = True
+            self.capture = self.camera.camera_config()
+            self.dimensionsCamera = self.capture.read()[1].shape[1::-1]
+            scene = QtWidgets.QGraphicsScene()
+            self.screenCamera.setScene(scene)
+            
+            pixmap = QtGui.QPixmap(*self.dimensionsCamera)
+            self.pixmapItem = scene.addPixmap(pixmap)            
+        else:
+            self.camera.kill_camera()
+            self.camera_on_off =True 
+            self.timer.stop()
+         
+    def get_frame(self): 
+        _, frame = self.capture.read()
+        image = QtGui.QImage(frame, *self.dimensionsCamera, QtGui.QImage.Format_RGB888).rgbSwapped()
+        pixmap = QtGui.QPixmap.fromImage(image)
+        self.pixmapItem.setPixmap(pixmap)   
+     
 def main():
     app = QtWidgets.QApplication(sys.argv)
     w = QtWidgets.QMainWindow()

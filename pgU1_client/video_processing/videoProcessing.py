@@ -11,11 +11,13 @@ class VideoProcessing():
         self.pastCentroidX = 1
         self.pastCentroidY = 1
         self.debug = debug
-    def cameraConfig(self):
+    def camera_config(self):
+        """start the camera"""
         self.cap = cv2.VideoCapture(self.cameraPort)
-
+        return self.cap
     def laserColor(self):
-
+        """get the color of the laser from the laserConfig file  in the hsv descriptor the red is in the upper end 
+        and the lower end so that why there is for boundries"""
         with open(os.path.join('calibration','laserColor.txt'), 'r') as file:
 
             text = file.readlines()
@@ -57,19 +59,23 @@ class VideoProcessing():
             self.lowerRedLow = np.array(self.lowerRedLow)
             
     def configLaserColor(self, upperRedUp, upperRedLow, lowerRedUp, lowerRedLow):
-
+        """ change the color range of the laser"""
         text = 'upper Red Up :{};\nupper Red low:{};\nlower Red Up :{};\nlower Red low:{};'.format(
             upperRedUp, upperRedLow, lowerRedUp, lowerRedLow)
         print(text)
         with open('calibration\laserColor.txt', 'w') as file:
             file.write(text)
 
-    def runCamera(self):
+    def run_camera_debug(self):
+        """run the camera for the debuging"""
         self.laserColor()
         while True:
             self.ret, self.frame = self.cap.read()
-            self.distanceDetection()
+            mask, res = self.distanceDetection()
             k = cv2.waitKey(5) & 0xFF
+            cv2.imshow('frame', self.frame)
+            cv2.imshow('mask',mask)
+            cv2.imshow('res',res)             
             if k == 27:
                 break
 
@@ -77,17 +83,12 @@ class VideoProcessing():
         self.cap.release()
 
     def distanceDetection(self):
-        
-
+        """find the distance between the camera and the laser"""
         hsvFrame = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
 
-        upperRedUp = np.array(self.upperRedUp)
-        lowerRedUp = np.array(self.lowerRedUp)
-        maskUp = cv2.inRange(hsvFrame, lowerRedUp, upperRedUp)
+        maskUp = cv2.inRange(hsvFrame, self.lowerRedUp, self.upperRedUp)
 
-        lowerRedLow = np.array(self.lowerRedLow)
-        upperRedLow = np.array(self.upperRedLow)
-        maskLow = cv2.inRange(hsvFrame, lowerRedLow, upperRedLow)
+        maskLow = cv2.inRange(hsvFrame, self.lowerRedLow, self.upperRedLow)
 
         mask = cv2.bitwise_or(maskUp, maskLow)
         res = cv2.bitwise_and(self.frame, self.frame, mask=mask)
@@ -105,13 +106,9 @@ class VideoProcessing():
         centerFrameX = int(round(mask.shape[1]/2))
 
         cv2.circle(self.frame, (centerFrameX, centerFrameY), 5, (255, 0, 0),-1)
-        cv2.circle(self.frame, (centroidX, centroidY), 5, (0, 0, 255),-1)
-        if self.debug == True:
-            cv2.imshow('frame', self.frame)
-            cv2.imshow('mask',mask)
-            cv2.imshow('res',res)             
-                       
-    def killCamera(self):
+        cv2.circle(self.frame, (centroidX, centroidY), 5, (0, 0, 255),-1)            
+        return (mask,res)     
+    def kill_camera(self):
 
         cv2.destroyAllWindows()
         self.cap.release()

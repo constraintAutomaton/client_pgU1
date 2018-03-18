@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>963</width>
-    <height>720</height>
+    <width>991</width>
+    <height>755</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,19 +17,11 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QWidget" name="camera" native="true">
-      <widget class="QLabel" name="lblCamera">
-       <property name="geometry">
-        <rect>
-         <x>420</x>
-         <y>110</y>
-         <width>55</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QGraphicsView" name="screenCamera"/>
+       </item>
+      </layout>
      </widget>
     </item>
     <item>
@@ -141,9 +133,16 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_7">
        <item>
+        <widget class="QPushButton" name="btnCamera">
+         <property name="text">
+          <string>activate/desactivate camera</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="btnConnection">
          <property name="text">
-          <string>Connect </string>
+          <string>Connect to pi</string>
          </property>
         </widget>
        </item>
@@ -157,7 +156,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>963</width>
+     <width>991</width>
      <height>26</height>
     </rect>
    </property>

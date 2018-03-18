@@ -6,6 +6,6 @@ from videoProcessing import VideoProcessing
 
 os.chdir(os.path.join('..','pgU1_client','video_processing'))
 
-test_video = VideoProcessing(debug=True)
-test_video.cameraConfig()
-test_video.runCamera()
+test_video = VideoProcessing()
+test_video.camera_config()
+test_video.run_camera_debug()

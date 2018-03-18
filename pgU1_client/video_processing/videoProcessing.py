@@ -6,11 +6,10 @@ import os
 
 
 class VideoProcessing():
-    def __init__(self, cameraPort=0,debug=False):
+    def __init__(self, cameraPort=0):
         self.cameraPort = cameraPort
         self.pastCentroidX = 1
         self.pastCentroidY = 1
-        self.debug = debug
     def camera_config(self):
         """start the camera"""
         self.cap = cv2.VideoCapture(self.cameraPort)

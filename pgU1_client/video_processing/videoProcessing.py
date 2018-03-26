@@ -10,6 +10,7 @@ class VideoProcessing():
         self.cameraPort = cameraPort
         self.pastCentroidX = 1
         self.pastCentroidY = 1
+        self.roi =50
     def camera_config(self):
         """start the camera"""
         self.cap = cv2.VideoCapture(self.cameraPort)
@@ -91,21 +92,35 @@ class VideoProcessing():
 
         mask = cv2.bitwise_or(maskUp, maskLow)
         res = cv2.bitwise_and(self.frame, self.frame, mask=mask)
-
-        laserPos = np.nonzero(mask)
         
-        centroidY = round(np.average(laserPos[0]))
-        centroidX = round(np.average(laserPos[1]))
+        centerFrameY = int(round(mask.shape[0]/2))
+        centerFrameX = int(round(mask.shape[1]/2))        
+        
+        x1 = centerFrameX-self.roi
+        x2 = centerFrameX+self.roi
+        
+        y1 = centerFrameY-self.roi
+        y2 = centerFrameY+self.roi
+        maskAnalyse = mask[y1:y2,x1:x2]
+        newMask = np.zeros((mask.shape[0],mask.shape[1]))
+        newMask[y1:y2,x1:x2] = maskAnalyse
+        
+        laserPos = np.nonzero(newMask)
+        cv2.rectangle(self.frame, (x1, y1), (x2, y2), (0,255,0), 2)
+        
+        centroidY = round(np.average(laserPos[0])) 
+        centroidX = round(np.average(laserPos[1])) 
+        print(centroidY)
         if math.isnan(centroidX) or math.isnan(centroidY):
             centroidX = self.pastCentroidX
             centroidY =self.pastCentroidY
         else:
             centroidX,centroidY = (int(centroidX),int(centroidY))
-        centerFrameY = int(round(mask.shape[0]/2))
-        centerFrameX = int(round(mask.shape[1]/2))
+        
 
         cv2.circle(self.frame, (centerFrameX, centerFrameY), 5, (255, 0, 0),-1)
-        cv2.circle(self.frame, (centroidX, centroidY), 5, (0, 0, 255),-1)            
+        cv2.circle(self.frame, (centroidX, centroidY), 5, (0, 0, 255),-1)
+        
         return (mask,res)     
     def kill_camera(self):
 

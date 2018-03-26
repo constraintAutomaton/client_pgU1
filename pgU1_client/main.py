@@ -68,7 +68,7 @@ class Main(Ui_MainWindow, Client):
             self.pixmapItem = scene.addPixmap(pixmap)            
         else:
             self.camera.kill_camera()
-            self.camera_on_off =True 
+            self.camera_on_off =False 
             self.timer.stop()
          
     def get_frame(self): 

@@ -33,6 +33,7 @@ class mapping():
         saveText = saveText+ '\n#'+'\n'+'unit:{}; incrementation in i:{};; incrementation in j:{};;; size in i:{};;;; size in j:{};;;;; name:{};;;;;; version:{}'.format(self.unit,self.i_incre,self.j_incre,self.i_max,self.j_max,self.mapName,self.version)
         
         with open(os.path.join('map_file','{}_version_{}.map'.format(self.mapName,self.version)),'w') as f:
+            f.seek(0)
             f.write(saveText)
     def change_layout(self,element,nb,posIni,direction='O'):
         """change the caracter of the box for the user caracter"""
@@ -52,7 +53,7 @@ class mapping():
             elif direction=='W':
                 j-=1
     def load(self,file):
-        with open('{}'.format(file),'r') as f:
+        with open(os.path.join('map_file','{}'.format(file)),'r') as f:
             textMap = f.read()
             deb = textMap.find('unit:')+len('unit:')
             end = textMap.find(';')
@@ -81,12 +82,15 @@ class mapping():
             deb  = textMap.find('version:') +len('version:')
             self.version = int(textMap[deb:])            
             
-            self.map_generation(self.i_max,self.j_max)
+            self.map_generation(self.i_max-1,self.j_max-1)
             i = 0
+            f.seek(0)
             for line in f.readlines():
-                if '#' in line:
+                if '#' in line or line == '\n':
                     break
                 el = np.array(line.split(' '),dtype=str)
+                el = np.delete(el,el.shape[0]-1)
+                print(el)
                 self.currentMap[i,:] = el
                 i+=1
     def enlarge_map(self,i_up=0,i_down=0,j_left=0,j_right=0):

@@ -11,6 +11,10 @@ class VideoProcessing():
         self.pastCentroidX = 1
         self.pastCentroidY = 1
         self.roi =50
+        self.rpc = 0.0015 # radian per pixel
+        self.ro = 0.01 # radian error
+        self.hCameraLaser = 25
+        self.distance = 0
     def camera_config(self):
         """start the camera"""
         self.cap = cv2.VideoCapture(self.cameraPort)
@@ -71,7 +75,8 @@ class VideoProcessing():
         self.laserColor()
         while True:
             self.ret, self.frame = self.cap.read()
-            mask, res = self.distanceDetection()
+            mask, res = self.distanceDetection()[0:2]
+            print("the laser is {} mm away".format(self.distance))
             k = cv2.waitKey(5) & 0xFF
             cv2.imshow('frame', self.frame)
             cv2.imshow('mask',mask)
@@ -110,7 +115,7 @@ class VideoProcessing():
         
         centroidY = round(np.average(laserPos[0])) 
         centroidX = round(np.average(laserPos[1])) 
-        print(centroidY)
+        
         if math.isnan(centroidX) or math.isnan(centroidY):
             centroidX = self.pastCentroidX
             centroidY =self.pastCentroidY
@@ -121,7 +126,23 @@ class VideoProcessing():
         cv2.circle(self.frame, (centerFrameX, centerFrameY), 5, (255, 0, 0),-1)
         cv2.circle(self.frame, (centroidX, centroidY), 5, (0, 0, 255),-1)
         
-        return (mask,res)     
+        deltaCentreLaser = centerFrameY - centroidY
+        theta =deltaCentreLaser*self.rpc+self.ro
+        self.distance = self.hCameraLaser/math.tan(theta)
+        
+        return (mask,res,deltaCentreLaser)
+    def calibration_theta_distance(self,nb):
+        self.laserColor()
+        for i in range(nb):
+            self.cap = cv2.VideoCapture(self.cameraPort)
+            self.ret, self.frame = self.cap.read()
+            result = self.distanceDetection()[2]
+            print('distance between laser and center of frame = {}'.format(result))
+            cv2.imshow('frame', self.frame)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+            self.cap.release()            
+        
     def kill_camera(self):
 
         cv2.destroyAllWindows()

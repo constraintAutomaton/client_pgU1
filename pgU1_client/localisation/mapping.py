@@ -26,8 +26,8 @@ class mapping():
     def save_map(self):
         self.version+=1
         saveText = ''
-        for i in range(0,self.i_max-1):
-            for j in range(0,self.j_max-1):
+        for i in range(0,self.i_max):
+            for j in range(0,self.j_max):
                 saveText = saveText + str(self.currentMap[i,j]) + ' '
             saveText = saveText+'\n'
         saveText = saveText+ '\n#'+'\n'+'unit:{}; incrementation in i:{};; incrementation in j:{};;; size in i:{};;;; size in j:{};;;;; name:{};;;;;; version:{}'.format(self.unit,self.i_incre,self.j_incre,self.i_max,self.j_max,self.mapName,self.version)
@@ -82,7 +82,7 @@ class mapping():
             deb  = textMap.find('version:') +len('version:')
             self.version = int(textMap[deb:])            
             
-            self.map_generation(self.i_max-1,self.j_max-1)
+            self.map_generation(self.i_max,self.j_max)
             i = 0
             f.seek(0)
             for line in f.readlines():
@@ -90,7 +90,6 @@ class mapping():
                     break
                 el = np.array(line.split(' '),dtype=str)
                 el = np.delete(el,el.shape[0]-1)
-                print(el)
                 self.currentMap[i,:] = el
                 i+=1
     def enlarge_map(self,i_up=0,i_down=0,j_left=0,j_right=0):

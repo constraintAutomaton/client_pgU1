@@ -75,7 +75,7 @@ class Main(Ui_MainWindow, Client):
         _, frame = self.capture.read()
         image = QtGui.QImage(frame, *self.dimensionsCamera, QtGui.QImage.Format_RGB888).rgbSwapped()
         pixmap = QtGui.QPixmap.fromImage(image)
-        self.pixmapItem.setPixmap(pixmap)   
+        self.pixmapItem.setPixmap(pixmap)
      
 def main():
     app = QtWidgets.QApplication(sys.argv)

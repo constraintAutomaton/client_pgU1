@@ -1,5 +1,6 @@
 import paramiko
-
+import os
+import sys
 
 class Client():
     """
@@ -8,7 +9,7 @@ class Client():
     """    
     def __init__(self,rpiScript='/home/pi/Python_project/PgU1/PgU1/CommandModule.py'):
         self.ssh = paramiko.SSHClient()
-        with open(r'C:\Users\Utilisateur\Documents\Python_Scripts\pgU1_pc_command\pgU1_client\config.txt'
+        with open(r'config.txt'
                   ,'r') as f:
             #maybe make a function to get those
             text = f.readlines()
@@ -55,7 +56,7 @@ class Client():
         """
         change the info of the config file
         """
-        with open(r'C:\Users\Utilisateur\Documents\Python_Scripts\pgU1_pc_command\pgU1_client\config.txt','w') as f:
+        with open(r'config.txt','w') as f:
             text = 'ip:{};\nusername:{};\npassword:{};\nrpi_script:{};'.format(ip,username,password,rpiScript)
             f.write(text)
     def kill(self):

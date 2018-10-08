@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>746</width>
+    <width>745</width>
     <height>485</height>
    </rect>
   </property>
@@ -61,8 +61,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>746</width>
-     <height>20</height>
+     <width>745</width>
+     <height>25</height>
     </rect>
    </property>
   </widget>
@@ -179,7 +179,17 @@
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="QWidget" name="dock_container_map_2"/>
+   <widget class="QWidget" name="dock_container_map">
+    <layout class="QHBoxLayout" name="map_layout">
+     <item>
+      <widget class="QGroupBox" name="gb_map">
+       <property name="title">
+        <string>Map</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
  </widget>
  <resources/>

@@ -42,7 +42,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.connection)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 746, 20))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 746, 25))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -113,9 +113,14 @@ class Ui_MainWindow(object):
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.dock_command)
         self.dock_map = QtWidgets.QDockWidget(MainWindow)
         self.dock_map.setObjectName("dock_map")
-        self.dock_container_map_2 = QtWidgets.QWidget()
-        self.dock_container_map_2.setObjectName("dock_container_map_2")
-        self.dock_map.setWidget(self.dock_container_map_2)
+        self.dock_container_map = QtWidgets.QWidget()
+        self.dock_container_map.setObjectName("dock_container_map")
+        self.map_layout = QtWidgets.QHBoxLayout(self.dock_container_map)
+        self.map_layout.setObjectName("map_layout")
+        self.gb_map = QtWidgets.QGroupBox(self.dock_container_map)
+        self.gb_map.setObjectName("gb_map")
+        self.map_layout.addWidget(self.gb_map)
+        self.dock_map.setWidget(self.dock_container_map)
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.dock_map)
 
         self.retranslateUi(MainWindow)
@@ -135,6 +140,7 @@ class Ui_MainWindow(object):
         self.btnStop.setText(_translate("MainWindow", "stop"))
         self.btnRight.setText(_translate("MainWindow", "rigth"))
         self.btnBackward.setText(_translate("MainWindow", "backward"))
+        self.gb_map.setTitle(_translate("MainWindow", "Map"))
 
 
 if __name__ == "__main__":

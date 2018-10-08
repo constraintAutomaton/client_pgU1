@@ -7,15 +7,17 @@ sys.path.append('video_processing')
 sys.path.append('localisation')
 from videoProcessing import VideoProcessing
 from mapping import mapping
+from map_environement import map_environement
+import datetime
 
-
-class Main(Ui_MainWindow, Client):
+class Main(Ui_MainWindow, Client, mapping):
     """
     gui for commanding pgU1
     """
     def __init__(self, w):
         self.setupUi(w)
         Client.__init__(self)
+        mapping.__init__(self,str(datetime.datetime.now()))
         self.btnConnection.clicked.connect(self.connection_to_pi)
         self.btnCamera.clicked.connect(self.switch_camera)
         self.initMovement()
@@ -26,7 +28,15 @@ class Main(Ui_MainWindow, Client):
         self.timer = QtCore.QTimer()
         self.timer.setInterval(int(1000/self.fps))
         self.timer.timeout.connect(self.get_frame)
-             
+        self.map_generation(5,5)
+        self.auxiliaire_window()
+    
+    def auxiliaire_window(self):
+        self.map_environement = map_environement(self.currentMap)
+        self.layout_map_environement = QtWidgets.QHBoxLayout()
+        self.layout_map_environement.addWidget(self.map_environement)
+        self.gb_map.setLayout(self.layout_map_environement)
+        
     def initMovement(self):
         """
         initiation of the movement related button

@@ -14,7 +14,7 @@ class Main(Ui_MainWindow, Client, mapping):
     """
     gui for commanding pgU1
     """
-    def __init__(self, w):
+    def __init__(self, w,dummy_plug=True):
         self.setupUi(w)
         Client.__init__(self)
         mapping.__init__(self,str(datetime.datetime.now()))
@@ -30,7 +30,8 @@ class Main(Ui_MainWindow, Client, mapping):
         self.timer.timeout.connect(self.get_frame)
         self.map_generation(5,5)
         self.auxiliaire_window()
-    
+        self.dummy_plug = dummy_plug
+        
     def auxiliaire_window(self):
         self.map_environement = map_environement(self.currentMap)
         self.layout_map_environement = QtWidgets.QHBoxLayout()
@@ -64,6 +65,12 @@ class Main(Ui_MainWindow, Client, mapping):
         """connection to the pi
         """
         self.connection()
+    def dummy_plug_decorator(self,func):
+        if dummy_plug:
+            def wrapper(command):
+                
+            
+            
     def switch_camera(self):
         """ turn the camera on or off"""
         if self.camera_on_off == False:

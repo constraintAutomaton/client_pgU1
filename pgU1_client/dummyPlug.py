@@ -1,9 +1,10 @@
 
 
 class Dummyplug():
-    def __init__(self):
+    def __init__(self,state):
         self.history_of_command = list()
         self.symbol()
+        self.state = state
     def symbol(self):
         
         self.forward_symbol = 'f'
